@@ -9,14 +9,14 @@
     {% if user.is_authenticated %}
         {% if user_rating %}
             <p>Your Rating: {{ user_rating.rating }}</p>
-            <form method="post" action="{% url 'update_rating' article.id %}">
+            <form method="post" action="{% url 'rate_article' article.id %}">
                 {% csrf_token %}
                 <label for="id_rating">Update Your Rating:</label>
                 <input type="number" name="rating" id="id_rating" min="0" max="5" value="{{ user_rating.rating }}">
                 <button type="submit">Update</button>
             </form>
         {% else %}
-            <form method="post" action="{% url 'article_detail' article.id %}">
+            <form method="post" action="{% url 'rate_article' article.id %}">
                 {% csrf_token %}
                 <label for="id_rating">Rate This Article:</label>
                 <input type="number" name="rating" id="id_rating" min="0" max="5">

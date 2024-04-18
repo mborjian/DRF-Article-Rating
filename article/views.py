@@ -30,8 +30,12 @@ def rate_article_view(request, article_id):
     if request.method == 'POST':
         rating_value = int(request.POST.get('rating', 0))
         if 0 <= rating_value <= 5:
-            rating, created = Rating.objects.get_or_create(user=request.user, article=article)
-            rating.rating = rating_value
+            try:
+                rating = Rating.objects.get(user=request.user, article=article)
+                rating.rating = rating_value
+            except Rating.DoesNotExist:
+                rating = Rating(user=request.user, article=article, rating=rating_value)
+
             rating.save()
 
     return redirect('article_detail', article_id=article_id)
