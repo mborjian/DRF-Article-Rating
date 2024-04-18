@@ -15,6 +15,7 @@ class Rating(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(choices=[(i, i) for i in range(6)])
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('article', 'user')
