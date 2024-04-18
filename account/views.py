@@ -1,11 +1,13 @@
-from account.forms import CustomUserCreationForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+
+from account.forms import CustomUserCreationForm, LoginForm, UserUpdateForm
 
 
 class CustomRegisterView(SuccessMessageMixin, CreateView):
@@ -62,3 +64,16 @@ class CustomLogoutView(LogoutView):
             return redirect(self.next_page)
         else:
             return response
+
+
+@login_required
+def profile_view(request):
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been updated!')
+            return redirect('profile')
+    else:
+        form = UserUpdateForm(instance=request.user)
+    return render(request, 'account/profile.html', {'form': form})

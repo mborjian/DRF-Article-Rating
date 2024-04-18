@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.core.exceptions import ValidationError
 
 from .models import User
@@ -44,3 +44,9 @@ class LoginForm(AuthenticationForm):
         cleaned_data = super().clean()
 
         return cleaned_data
+
+
+class UserUpdateForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'bio']
