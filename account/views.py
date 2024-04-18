@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from account.forms import CustomUserCreationForm, LoginForm, UserUpdateForm
+from article.models import Rating
 
 
 class CustomRegisterView(SuccessMessageMixin, CreateView):
@@ -68,12 +69,20 @@ class CustomLogoutView(LogoutView):
 
 @login_required
 def profile_view(request):
+    user = request.user
+    latest_ratings = Rating.objects.filter(user=user).order_by('-created')[:5]
+
     if request.method == 'POST':
-        form = UserUpdateForm(request.POST, instance=request.user)
+        form = UserUpdateForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Your account has been updated!')
             return redirect('profile')
     else:
-        form = UserUpdateForm(instance=request.user)
-    return render(request, 'account/profile.html', {'form': form})
+        form = UserUpdateForm(instance=user)
+
+    context = {
+        'form': form,
+        'latest_ratings': latest_ratings
+    }
+    return render(request, 'account/profile.html', context)

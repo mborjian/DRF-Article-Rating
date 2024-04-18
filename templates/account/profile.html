@@ -8,4 +8,14 @@
         {{ form.as_p }}
         <button type="submit">Update</button>
     </form>
+
+    <hr>
+
+    <h2>Latest Ratings</h2>
+    <ul>
+        {% for rating in latest_ratings %}
+            <li><a href="{% url 'article_detail' rating.article.id %}">{{ rating.article.title }}</a>
+                - {{ rating.rating }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}
