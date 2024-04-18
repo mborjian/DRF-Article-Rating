@@ -8,11 +8,17 @@
 <body>
 
 <div style="text-align: center; margin-bottom: 20px;">
-    <a href="{% url 'login' %}"
+    {% if user.is_authenticated %}
+    <a href="{% url 'account.logout' %}"
+       style="text-decoration: none; background-color: #28a745; color: #ffffff; padding: 10px 20px; border-radius: 5px;">Logout</a>
+    <a href="{% url 'account.profile' %}"
+       style="text-decoration: none; background-color: #28a745; color: #ffffff; padding: 10px 20px; border-radius: 5px;">Profile</a>
+    {% else %}
+    <a href="{% url 'account.register' %}"
+       style="text-decoration: none; background-color: #28a745; color: #ffffff; padding: 10px 20px; border-radius: 5px;">Signup</a>
+    <a href="{% url 'account.login' %}"
        style="text-decoration: none; background-color: #007bff; color: #ffffff; padding: 10px 20px; border-radius: 5px; margin-right: 10px;">Login</a>
-    <a href="{% url 'signup' %}"
-       style="text-decoration: none; background-color: #28a745; color: #ffffff; padding: 10px 20px; border-radius: 5px;">Sign
-        Up</a>
+    {% endif %}
 </div>
 
 <h1>Article Rating</h1>
