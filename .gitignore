@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+venv/
 build/
 develop-eggs/
 dist/
@@ -24,7 +25,15 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
+
+/.idea
+/.vscode
+/.vagrant
+.env
+/env
+/venv
+/.venv
+/media
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -57,16 +66,6 @@ cover/
 
 # Django stuff:
 *.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
 
 # Sphinx documentation
 docs/_build/
