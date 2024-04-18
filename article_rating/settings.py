@@ -28,6 +28,10 @@ ALLOWED_HOSTS = ['*']
 
 APPEND_SLASH = True
 
+AUTH_USER_MODEL = "account.User"
+
+LOGIN_URL = '/a/login/'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
 
     'account',
     'article',

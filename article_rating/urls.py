@@ -8,6 +8,7 @@ urlpatterns = [
 
     # App-specific URL patterns
     path('', include('article.urls')),
+    path('a/', include('account.urls')),
 ]
 
 # Serve static and media files in development
