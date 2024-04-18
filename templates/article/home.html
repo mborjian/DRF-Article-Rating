@@ -1,36 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Rating</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
 
-<div style="text-align: center; margin-bottom: 20px;">
-    {% if user.is_authenticated %}
-    <a href="{% url 'account.logout' %}"
-       style="text-decoration: none; background-color: #28a745; color: #ffffff; padding: 10px 20px; border-radius: 5px;">Logout</a>
-    <a href="{% url 'account.profile' %}"
-       style="text-decoration: none; background-color: #28a745; color: #ffffff; padding: 10px 20px; border-radius: 5px;">Profile</a>
-    {% else %}
-    <a href="{% url 'account.register' %}"
-       style="text-decoration: none; background-color: #28a745; color: #ffffff; padding: 10px 20px; border-radius: 5px;">Signup</a>
-    <a href="{% url 'account.login' %}"
-       style="text-decoration: none; background-color: #007bff; color: #ffffff; padding: 10px 20px; border-radius: 5px; margin-right: 10px;">Login</a>
-    {% endif %}
-</div>
-
-<h1>Article Rating</h1>
-
-<h2>Latest Articles</h2>
-<ul>
-    {% for article in articles %}
-    <li>
-        <h3>{{ article.title }}</h3>
-        <p>{{ article.content }}</p>
-    </li>
-    {% endfor %}
-</ul>
-</body>
-</html>
+{% block content %}
+    <h1>List of Articles</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col"># of raters</th>
+            <th scope="col">Article's Rate</th>
+            <th scope="col">Your Rate</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.title }}</td>
+                <td>{{ article.rating_count }}</td>
+                <td>{{ article.average_rating }}</td>
+                <td>
+                    {% if article.user_rating is not None %}
+                        {{ article.user_rating }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.is_authenticated %}
+                        <button onclick="window.location.href='{% url 'article_detail' article.id %}'">Rate this
+                        </button>
+                    {% else %}
+                        <a href="{% url 'account.login' %}?next={{ request.path }}">Login</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
